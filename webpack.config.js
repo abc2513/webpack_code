@@ -7,7 +7,7 @@ module.exports = {
   entry: "./src/main.js",
   // 输出
   output: {
-    // path: 文件输出目录，必须是绝对路径
+    // path: 所有文件输出目录，必须是绝对路径
     // path.resolve()方法返回一个绝对路径
     // __dirname 当前文件的文件夹绝对路径
     path: path.resolve(__dirname, "dist"),
@@ -39,6 +39,16 @@ module.exports = {
           {
             test: /\.styl$/,
             use: ["style-loader", "css-loader", "stylus-loader"], // stylus-loader将 Styl 文件编译成 Css 文件
+          },
+          {
+            test: /\.(png|jpe?g|gif|webp|svg)$/,
+            type: "asset",
+            parser: {
+                dataUrlCondition: {
+                    // 优点减少请求数量，缺点体积变大一点。
+                  maxSize: 10 * 1024 // 小于10kb的图片会被base64处理
+                }
+              }
           },
       ],
   },
