@@ -71,11 +71,12 @@
     直接配置maxSize: 10 * 1024 小于10kb的图片转成base64即可
     此时打包的dist文件只有两张图，另一张被转成base64了。
 
-## 处理打包后的文件
+## 处理打包后的文件: 分类打包资源、清空上次打包
 [13-基础-修改输出文件目录]
     目前看来输出的文件比较乱
-    
-
+    希望js打包到js文件夹下，filename: "static/js/main.js",
+    图片打包到images文件夹下，generator: { filename: "static/imgs/[hash:8][ext][query]" }
+    npx webpack去打包即可
 
 [14-基础-自动清空上次打包内容]
 
