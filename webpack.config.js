@@ -15,7 +15,15 @@ module.exports = {
   },
   // 加载器
   module: {
-    rules: [],
+    rules: [
+        {
+          test: /\.css$/, // 只检测.css文件
+          use: [ // 执行顺序 从后往前
+            "style-loader", // 将js中css通过创建style标签添加html文件中生效
+            "css-loader" // 将css资源编译成commonjs的模块打包到js中
+        ],
+        },
+      ],
   },
   // 插件
   plugins: [],

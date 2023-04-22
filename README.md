@@ -42,3 +42,11 @@
             提前检查代码的一些隐患，让代码运行时更健壮
             提前检查代码的规范和格式，统一编码风格，让代码更优雅美观，可维护性强。
 
+[07-基础-处理css资源]
+    Webpack 如何处理 Css、Less、Sass、Scss、Styl 样式资源
+    借助 Loader 来帮助 Webpack 解析样式资源（https://webpack.docschina.org/loaders/）
+    要想webpack打包资源必须在main.js中引入
+    npm i css-loader style-loader -D 用了哪个loader就下载。在module中配置
+    此时webpack就可以正常打包了
+
+    
