@@ -1,0 +1,8 @@
+{
+    "less.compile": {
+        "outExt": ".wxss",// 输出后缀
+        "compress": false,
+        "sourceMap": false,
+        "out": false // 拒绝保存.less文件时，自动输出.wxss和.css
+    }
+}

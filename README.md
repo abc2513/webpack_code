@@ -49,4 +49,8 @@
     npm i css-loader style-loader -D 用了哪个loader就下载。在module中配置
     此时webpack就可以正常打包了
 
-    
+[08-基础-处理less资源]
+    安装npm install less less-loader --save-dev
+    配置
+    在main.js中引入
+    打包即可
