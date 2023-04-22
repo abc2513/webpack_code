@@ -54,3 +54,7 @@
     配置
     在main.js中引入
     打包即可
+
+[09-基础-处理sass资源]
+    npm i sass-loader sass -D
+    
