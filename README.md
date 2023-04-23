@@ -177,6 +177,20 @@
 # 生产模式
 ## 
 ### [25-基础-生产模式准备工作]
+    开发完代码后需要将代码部署上线
+    对代码进行优化，让其运行性能更好。
+        1. 优化代码运行性能
+        2. 优化代码打包速度
+    我们分别准备两个配置文件来放不同的配置
+        webpack.dev.js 开发
+        webpack.prod.js 生产
+    在package.json中配置 快捷打包命令
+        "scripts": {
+            "start": "npm run dev", // npm start
+            "dev": "webpack serve --config ./config/webpack.dev.js", // npm run dev 打包运行开发环境
+            "build": "webpack --config ./config/webpack.prod.js" // npm run build 打包运行生产环境
+        },
+
 
 ### [26-基础-提取css成单独文件]
 
