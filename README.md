@@ -83,6 +83,7 @@
         clean: true, // 自动清空上次打包的内容
     }
 
+## 处理字体、音视频资源
 [15-基础-处理字体图标资源]
     首先阿里巴巴矢量图标库（https://www.iconfont.cn/）下载
     引入iconfont.css及.ttf .woff .woff2
@@ -94,6 +95,7 @@
     音视频资源 在处理字体图标资源基础上增加其他文件类型，统一处理即可
      test: /\.(ttf|woff2?|map4|map3|avi)$/,
 
+## 处理js资源: eslint、babel
 [17-基础-处理js资源介绍]
     Webpack 对 js 处理是有限的，只能编译 js 中 ES 模块化语法，不能编译其他语法
         针对 js 兼容性处理，我们使用 Babel 来完成
@@ -115,6 +117,24 @@
         };
 
 [19-基础-eslint使用]
+    eslint在webpack4是个loader处理，在webpack5是个plugins插件处理。
+    插件：需要安装后引入才能用。所有的插件都是构造函数，所以都是new调用。
+    官网https://webpack.docschina.org/plugins/eslint-webpack-plugin/
+    1. 安装
+        npm install eslint-webpack-plugin --save-dev
+        npm install eslint --save-dev
+    2. 配置
+        const ESLintPlugin = require('eslint-webpack-plugin');
+        module.exports = {
+            // ...
+            plugins: [new ESLintPlugin(options)],
+            // ...
+        };
+    3. 写.eslintrc.js配置文件
+
+    4. 打包npx webpack 会提示eslint的错误，或者安装了eslint扩展也可以直接在页面上看到红色波浪线〰️提示
+
+    5. 创建.eslintignore 添加的文件可忽略eslint扩展插件的检测。
 
 [20-基础-babel介绍]
 
