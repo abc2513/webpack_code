@@ -1,7 +1,8 @@
 # webpack_code
 尚硅谷的webpack教程https://yk2012.github.io/sgg_webpack5/intro/
 
-
+# webpack简介及常见资源处理 开发模式
+## webpack简介
 ### [04-基础-webpack介绍&基本使用]
     main.js 打包入口文件
     public 静态资源
@@ -160,10 +161,21 @@
     4. 打包 打包后dist文件夹会自动生成一个index.html文件，并自动引入了打包后的js文件
     5. 打开dist/index.html就可以看到效果了。
 
+
+## 自动化：自动打包编译
 ### [23-基础-搭建开发服务器]
+    每次写完代码都需要手动输入npx webpack进行打包，编译代码；希望自动化。
+    1. 安装 npm i webpack-dev-server -D
+    2. 配置 devServer
+    3. 运行 npx webpack server
 
 ### [24-基础-总结开发模式配置]
+    编译代码：loader加载器用来编译 css、less、scss、图片、字体、音视频、babel+预设将js编译成低版本语法
+    代码检查：plugins插件用来扩展功能 eslint检测、html自动生成
+    自动化：保存代码后自动打包刷新
 
+# 生产模式
+## 
 ### [25-基础-生产模式准备工作]
 
 ### [26-基础-提取css成单独文件]
