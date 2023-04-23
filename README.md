@@ -150,7 +150,15 @@
 
     4. 打包后main.js打包里的箭头函数就变成了普通函数。
 
+## 处理html资源
 ### [22-基础-处理html资源]
+    html中引入打包好的js文件，如果改了文件名或者路径都需要进行手动改。
+    需要自动引入，通过插件实现。官网https://webpack.docschina.org/plugins/html-webpack-plugin/
+    1. 下载 npm install --save-dev html-webpack-plugin
+    2. 引入 const HtmlWebpackPlugin = require('html-webpack-plugin');
+    3. new 调用，并传入template属性，将某个html文件作为打包后的模板
+    4. 打包 打包后dist文件夹会自动生成一个index.html文件，并自动引入了打包后的js文件
+    5. 打开dist/index.html就可以看到效果了。
 
 ### [23-基础-搭建开发服务器]
 
