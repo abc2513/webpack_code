@@ -71,10 +71,22 @@ module.exports = {
                 filename: "static/media/[hash:8][ext][query]",
             },
         },
+        // 5. babel
+        {
+          test: /\.js$/,
+          exclude: /(node_modules)/, // 排除node_modules中的js文件（这些文件不处理）
+          // use: {
+            loader: 'babel-loader',
+          //   options: {
+          //     presets: ['@babel/preset-env'] // 可以写在这里，也可以单独写入babel.config.js配置文件
+          //   }
+          // }
+        }
       ],
   },
   // 插件：需要安装后引入才能用
   plugins: [
+    // 4. eslint 检测文件
     new ESLintPlugin({
       context: path.resolve(__dirname, "src") // 检测哪些文件，src下的
     })
