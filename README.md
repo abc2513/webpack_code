@@ -182,8 +182,8 @@
         1. 优化代码运行性能
         2. 优化代码打包速度
     我们分别准备两个配置文件来放不同的配置
-        webpack.dev.js 开发
-        webpack.prod.js 生产
+        webpack.dev.js 开发 -> 不会生成打包文件，需要devServer自动打包刷新
+        webpack.prod.js 生产 -> 会生成打包文件，不需要devServer
     在package.json中配置 快捷打包命令
         "scripts": {
             "start": "npm run dev", // npm start
