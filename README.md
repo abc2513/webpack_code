@@ -95,6 +95,10 @@
      test: /\.(ttf|woff2?|map4|map3|avi)$/,
 
 [17-基础-处理js资源介绍]
+    Webpack 对 js 处理是有限的，只能编译 js 中 ES 模块化语法，不能编译其他语法
+        针对 js 兼容性处理，我们使用 Babel 来完成
+        针对代码格式，我们使用 Eslint 来完成
+    先完成 Eslint，检测代码格式无误后，在由 Babel 做代码兼容性处理
 
 [18-基础-eslint介绍]
 
