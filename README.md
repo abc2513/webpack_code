@@ -84,7 +84,11 @@
     }
 
 [15-基础-处理字体图标资源]
-    
+    首先阿里巴巴矢量图标库（https://www.iconfont.cn/）下载
+    引入iconfont.css及.ttf .woff .woff2
+    再引入到main.js中
+    webpack打包配置test: /\.(ttf|woff2?)$/
+    在html中使用<i class="iconfont icon-xihuan"></i>
 
 [16-基础-处理其他资源]
 

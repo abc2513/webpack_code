@@ -17,6 +17,7 @@ module.exports = {
   // 加载器
   module: {
     rules: [
+        // 1. 样式资源处理
         {
           test: /\.css$/, // 只检测.css文件
           use: [ // 执行顺序 从后往前
@@ -32,16 +33,17 @@ module.exports = {
               'css-loader',
               'less-loader', // 将less文件编译成css文件
             ],
-          },
-          {
+        },
+        {
             test: /\.s[ac]ss$/,
             use: ["style-loader", "css-loader", "sass-loader"], // sass-loader将sass编译成css
-          },
-          {
+        },
+        {
             test: /\.styl$/,
             use: ["style-loader", "css-loader", "stylus-loader"], // stylus-loader将 Styl 文件编译成 Css 文件
-          },
-          {
+        },
+        // 2. 图片资源处理：转base64，定义打包输出路径
+        {
             test: /\.(png|jpe?g|gif|webp|svg)$/,
             type: "asset",
             parser: {
@@ -58,7 +60,16 @@ module.exports = {
                 // [query]: 添加之前的query参数
                 filename: "static/imgs/[hash:8][ext][query]",
             },
-          },
+        },
+        // 3. 字体资源处理：
+        {
+            test: /\.(ttf|woff2?)$/,
+            type: "asset/resource", // 对文件原封不动的输出
+            generator: {
+                // 打包输出名称
+                filename: "static/media/[hash:8][ext][query]",
+            },
+        },
       ],
   },
   // 插件
