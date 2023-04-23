@@ -61,9 +61,9 @@ module.exports = {
                 filename: "static/imgs/[hash:8][ext][query]",
             },
         },
-        // 3. 字体资源处理：
+        // 3. 字体资源处理：ttf|woff2?  4. 音视频|map4|map3|avi
         {
-            test: /\.(ttf|woff2?)$/,
+            test: /\.(ttf|woff2?|map4|map3|avi)$/,
             type: "asset/resource", // 对文件原封不动的输出
             generator: {
                 // 打包输出名称

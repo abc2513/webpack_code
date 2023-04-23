@@ -91,6 +91,8 @@
     在html中使用<i class="iconfont icon-xihuan"></i>
 
 [16-基础-处理其他资源]
+    音视频资源 在处理字体图标资源基础上增加其他文件类型，统一处理即可
+     test: /\.(ttf|woff2?|map4|map3|avi)$/,
 
 [17-基础-处理js资源介绍]
 
