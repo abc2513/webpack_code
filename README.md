@@ -101,6 +101,18 @@
     先完成 Eslint，检测代码格式无误后，在由 Babel 做代码兼容性处理
 
 [18-基础-eslint介绍]
+    使用 Eslint，关键是写 Eslint 配置文件，里面写上各种 rules 规则，将来运行 Eslint 时就会以写的规则对代码进行检查
+    以 .eslintrc.js 配置文件为例：
+        module.exports = {
+            // 解析选项
+            parserOptions: {},
+            // 具体检查规则
+            rules: {},
+            // 继承其他规则
+            extends: [],
+            // ...
+            // 其他规则详见：https://eslint.bootcss.com/docs/user-guide/configuring
+        };
 
 [19-基础-eslint使用]
 
