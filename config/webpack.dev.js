@@ -70,6 +70,9 @@ module.exports = {
                 filename: "static/media/[hash:8][ext][query]",
             },
         },
+        // type: "asset/resource" 相当于file-loader, 将文件转化成 Webpack 能识别的资源，其他不做处理
+        // type: "asset" 相当于url-loader, 将文件转化成 Webpack 能识别的资源，同时小于某个大小的资源会处理成 data URI 形式
+        
         // 5. babel 将es6转成低版本js语法
         {
           test: /\.js$/,

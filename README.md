@@ -193,6 +193,16 @@
 
 
 ### [26-基础-提取css成单独文件]
+    之前是通过"style-loader", // 将js中css通过创建style标签添加html文件中生效
+    Css 文件目前被打包到 js 文件中，当 js 文件加载时，会创建一个 style 标签来生成样式
+    这样对于网站来说，会出现闪屏现象，用户体验不好
+    我们应该是单独的 Css 文件，通过 link 标签加载性能才好
+    1. 安装 npm i mini-css-extract-plugin -D
+    2. 引入const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+    3. 在webpack.prod.js中 将所有的style-loader换成 MiniCssExtractPlugin.loader
+    4. new MiniCssExtractPlugin调用
+    5. 打包运行 npm run build
+    打包后会把所有的css文件合并成一个文件，dist目录下会多个css/main.css文件。html文件会自动通过link引入
 
 ### [27-基础-样式兼容性处理]
 
