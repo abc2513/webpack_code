@@ -221,11 +221,13 @@
     3. new CssMinimizerPlugin()
     4. npm run build 打包后可以看到css文件压缩成一行了
 
+## html和js压缩介绍
 ### [30-基础-html和js压缩介绍]
     默认生产模式已经开启了：html 压缩和 js 压缩
 
     不需要额外进行配置
 
+# 基础总结
 ### [30-基础-webpack基础总结]
     1. 两种开发模式
         开发模式：代码能编译自动化运行
