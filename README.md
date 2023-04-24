@@ -208,9 +208,11 @@
     1. 安装npm i postcss-loader postcss postcss-preset-env -D
     2. 写在css-loader后面，less-loader前面
     3. 在package.json里配置"browserslist": [ "last 2 version", "> 1%", "not dead" ] 只取最近两个版本的浏览器 且 覆盖99% 且 不要已经退出市场的浏览器。
-    通过loader和预设做兼容性处理，通过browserslist配置做到什么程度的兼容性
+    通过loader和预设做兼容性处理，通过browserslist控制兼容性程度
 
 ### [28-基础-封装样式loader函数]
+    loader里面存在很多重复的代码，定义一个函数getStyleLoaders，把重复的东西放进去。
+    在用到的地方调用
 
 ### [29-基础-css压缩]
 
