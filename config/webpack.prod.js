@@ -25,8 +25,18 @@ module.exports = {
           test: /\.css$/, // 只检测.css文件
           use: [ // 执行顺序 从后往前
             MiniCssExtractPlugin.loader, // 将js中css通过创建style标签添加html文件中生效
-            "css-loader" // 将css资源编译成commonjs的模块打包到js中
-            ],
+            "css-loader", // 将css资源编译成commonjs的模块打包到js中
+            {
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    "postcss-preset-env", // 能解决大多数样式兼容性问题
+                  ],
+                },
+              },
+            },
+          ],
         },
         {
             test: /\.less$/,
@@ -34,12 +44,36 @@ module.exports = {
               // compiles Less to CSS
               'style-loader',
               'css-loader',
+              {
+                loader: "postcss-loader",
+                options: {
+                  postcssOptions: {
+                    plugins: [
+                      "postcss-preset-env", // 能解决大多数样式兼容性问题
+                    ],
+                  },
+                },
+              },
               'less-loader', // 将less文件编译成css文件
             ],
         },
         {
             test: /\.s[ac]ss$/,
-            use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"], // sass-loader将sass编译成css
+            use: [
+              MiniCssExtractPlugin.loader, 
+              "css-loader", 
+              "sass-loader", // sass-loader将sass编译成css
+              {
+                loader: "postcss-loader",
+                options: {
+                  postcssOptions: {
+                    plugins: [
+                      "postcss-preset-env", // 能解决大多数样式兼容性问题
+                    ],
+                  },
+                },
+              },
+            ],
         },
         {
             test: /\.styl$/,

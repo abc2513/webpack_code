@@ -204,7 +204,11 @@
     5. 打包运行 npm run build
     打包后会把所有的css文件合并成一个文件，dist目录下会多个css/main.css文件。html文件会自动通过link引入
 
-### [27-基础-样式兼容性处理]
+### [27-基础-样式css兼容性处理]
+    1. 安装npm i postcss-loader postcss postcss-preset-env -D
+    2. 写在css-loader后面，less-loader前面
+    3. 在package.json里配置"browserslist": [ "last 2 version", "> 1%", "not dead" ] 只取最近两个版本的浏览器 且 覆盖99% 且 不要已经退出市场的浏览器。
+    通过loader和预设做兼容性处理，通过browserslist配置做到什么程度的兼容性
 
 ### [28-基础-封装样式loader函数]
 
