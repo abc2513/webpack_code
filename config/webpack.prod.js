@@ -3,6 +3,7 @@ const path = require("path");
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 // 获取处理样式的Loaders
 const getStyleLoaders = (preLoader) => {
@@ -114,6 +115,7 @@ module.exports = {
       // 定义输出文件名和目录
       filename: "static/css/main.css",
     }),
+    new CssMinimizerPlugin()
   ],
   // 模式
   mode: "production", // 开发模式

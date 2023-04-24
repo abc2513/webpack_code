@@ -175,7 +175,7 @@
     自动化：保存代码后自动打包刷新
 
 # 生产模式
-## 
+## 生产环境准备
 ### [25-基础-生产模式准备工作]
     开发完代码后需要将代码部署上线
     对代码进行优化，让其运行性能更好。
@@ -191,7 +191,7 @@
             "build": "webpack --config ./config/webpack.prod.js" // npm run build 打包运行生产环境
         },
 
-
+## CSS处理
 ### [26-基础-提取css成单独文件]
     之前是通过"style-loader", // 将js中css通过创建style标签添加html文件中生效
     Css 文件目前被打包到 js 文件中，当 js 文件加载时，会创建一个 style 标签来生成样式
@@ -210,11 +210,16 @@
     3. 在package.json里配置"browserslist": [ "last 2 version", "> 1%", "not dead" ] 只取最近两个版本的浏览器 且 覆盖99% 且 不要已经退出市场的浏览器。
     通过loader和预设做兼容性处理，通过browserslist控制兼容性程度
 
-### [28-基础-封装样式loader函数]
+### [28-基础-封装共同样式loader函数]
     loader里面存在很多重复的代码，定义一个函数getStyleLoaders，把重复的东西放进去。
-    在用到的地方调用
+    在用到的地方调用即可
 
 ### [29-基础-css压缩]
+    官网https://webpack.docschina.org/plugins/css-minimizer-webpack-plugin/
+    1. 安装 npm install css-minimizer-webpack-plugin --save-dev
+    2. 引入
+    3. new CssMinimizerPlugin()
+    4. npm run build 打包后可以看到css文件压缩成一行了
 
 ### [30-基础-html和js压缩介绍]
 
