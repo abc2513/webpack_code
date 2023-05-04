@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin"); // 12. 压缩插件 内置了 不需要下载
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin"); // 图片压缩
 
 // cpu核数
 const threads = os.cpus().length;
@@ -164,6 +165,34 @@ module.exports = {
       new CssMinimizerPlugin(), // css压缩也可以写到optimization.minimizer里面，效果一样的
       new TerserPlugin({ // js压缩，当生产模式会默认开启TerserPlugin，但是我们需要进行其他配置，就要重新写了
         parallel: threads // 开启多进程
+      }),
+      // 压缩图片
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ["gifsicle", { interlaced: true }],
+              ["jpegtran", { progressive: true }],
+              ["optipng", { optimizationLevel: 5 }],
+              [
+                "svgo",
+                {
+                  plugins: [
+                    "preset-default",
+                    "prefixIds",
+                    {
+                      name: "sortAttrs",
+                      params: {
+                        xmlnsOrder: "alphabetical",
+                      },
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        }
       })
     ],
   },

@@ -452,7 +452,69 @@
 
     @babel/plugin-transform-runtime: 禁用了 Babel 自动对每个文件的 runtime 注入，而是引入 @babel/plugin-transform-runtime 并且使所有辅助代码从这里引用。
 
-#### [41-高级-压缩图片]
+#### [41-高级-压缩图片-（减少本地图片体积）]
+    安装 npm i image-minimizer-webpack-plugin imagemin -D
+    无损压缩 npm install imagemin-gifsicle imagemin-jpegtran imagemin-optipng imagemin-svgo -D
+    配置 
+        const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+        // 压缩图片
+        new ImageMinimizerPlugin({
+            minimizer: {
+            implementation: ImageMinimizerPlugin.imageminGenerate,
+            options: {
+                plugins: [
+                ["gifsicle", { interlaced: true }],
+                ["jpegtran", { progressive: true }],
+                ["optipng", { optimizationLevel: 5 }],
+                [
+                    "svgo",
+                    {
+                    plugins: [
+                        "preset-default",
+                        "prefixIds",
+                        {
+                        name: "sortAttrs",
+                        params: {
+                            xmlnsOrder: "alphabetical",
+                        },
+                        },
+                    ],
+                    },
+                ],
+                ],
+            },
+            }
+        })
+    npm run build后 dist/static/imgs 里的图片变小了
+
+### 优化代码运行性能
+#### [42-高级-Code Split-多入口]
+    
+
+#### [43-高级-Code Split-多入口提取公告模块]
+
+#### [44-高级-Code Split-多入口按需加载]
+
+
+#### [45-高级-Code Split-单入口]
+
+
+#### [46-高级-Code Split-给模块命名]
+
+#### [47-高级-Code Split-统一命名]
+
+#### [48-高级-Preload和Prefetch]
+
+#### [49-高级-Network Cache]
+
+
+#### [50-高级-解决js兼容性问题CoreJS]
+
+
+#### [51-高级-PWA]
+
+
+### [52-高级-总结]
 
 
 
