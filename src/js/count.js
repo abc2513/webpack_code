@@ -1,4 +1,4 @@
 export default function count(x, y) {
-    return x - y;
+    return x - y -1;
   }
   

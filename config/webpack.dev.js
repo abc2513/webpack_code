@@ -104,6 +104,7 @@ module.exports = {
     host: "localhost", // 启动服务器域名
     port: "3000", // 启动服务器的端口号
     open: true, // 是否自动打开浏览器
+    hot: true, // 局部更新css样式，不再编译刷新整个页面
   },
   // 模式
   mode: "development", // 开发模式

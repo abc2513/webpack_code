@@ -11,3 +11,13 @@ import "./stylus/index.styl"
 // var a = 1 // 此时打包会报错
 console.log(count(2, 1));
 console.log(sum(1, 2, 3, 4));
+
+if (module.hot) {
+    // 判断是否支持热模块替换功能: 局部更新js文件，不再编译刷新整个页面
+    module.hot.accept("./js/count.js");
+    // module.hot.accept("./js/sum.js", function (sum) {
+    //     const result2 = sum(1, 2, 3, 4);
+    //     console.log('result2', result2);
+    //   });
+    module.hot.accept("./js/sum.js");
+}
