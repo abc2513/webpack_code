@@ -86,6 +86,10 @@ module.exports = {
             //     presets: ['@babel/preset-env'] // 可以写在这里，也可以单独写入babel.config.js配置文件
             //   }
             // }
+            options: {
+              cacheDirectory: true, // 开启babel编译缓存
+              cacheCompression: false, // 缓存文件不要压缩
+            },
           }
         ]
       }
@@ -97,6 +101,12 @@ module.exports = {
     new ESLintPlugin({
       context: path.resolve(__dirname, "../src"), // 检测哪些文件，src下的
       exclude: "node_modules", // 默认值 排除node_modules文件不处理
+      cache: true, // 开启缓存
+      // 缓存目录
+      cacheLocation: path.resolve(
+        __dirname,
+        "../node_modules/.cache/.eslintcache"
+      ),
     }),
     // 6. Html插件 自动生成一个html并自动引入js资源
     new HtmlWebpackPlugin({

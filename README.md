@@ -340,7 +340,33 @@
         exclude
             排除，除了 xxx 文件以外其他文件都处理
 
-#### [37-高级-Eslint和Babel的缓存]
+#### [37-高级-Eslint和Babel的缓存-（二次打包速度提升）]
+    每次打包时 js 文件都要经过 Eslint 检查 和 Babel 编译，速度比较慢。
+    可以缓存之前的 Eslint 检查 和 Babel 编译结果，这样第二次打包时速度就会更快了。
+    只需要对修改的文件进行eslint检查和babel编译就好了，不需要全部进行编译。
+    首次打包是4s，二次打包是2s
+    {
+        test: /\.js$/,
+        // exclude: /node_modules/, // 排除node_modules代码不编译
+        include: path.resolve(__dirname, "../src"), // 也可以用包含
+        loader: "babel-loader",
+        options: {
+            cacheDirectory: true, // 开启babel编译缓存
+            cacheCompression: false, // 缓存文件不要压缩
+        },
+    },
+
+    new ESLintWebpackPlugin({
+      // 指定检查文件的根目录
+      context: path.resolve(__dirname, "../src"),
+      exclude: "node_modules", // 默认值
+      cache: true, // 开启缓存
+      // 缓存目录
+      cacheLocation: path.resolve(
+        __dirname,
+        "../node_modules/.cache/.eslintcache"
+      ),
+    }),
 
 
 #### [38-高级-多进程打包]
