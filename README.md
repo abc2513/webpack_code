@@ -441,8 +441,16 @@
     Webpack 已经默认开启了这个功能，无需其他配置。
     如：math.js中写入多个方法，只用到其中一个，就可以按需引入，这样打包的时候不会打包整个文件了。
 
-#### [40-高级-减少Babel生成文件的体积]
+#### [40-高级-减少Babel生成文件的体积-（避免重复定义，引用安装的包里的）]
+    安装 npm i @babel/plugin-transform-runtime -D
+    配置babel增加 plugins: ["@babel/plugin-transform-runtime"], // 减少代码体积
+    文件越多，效果越明显。开发和生产都可以做。
 
+    Babel 为编译的每个文件都插入了辅助代码，使代码体积过大！
+    Babel 对一些公共方法使用了非常小的辅助代码，比如 _extend。默认情况下会被添加到每一个需要它的文件中。
+    你可以将这些辅助代码作为一个独立模块，来避免重复引入。
+
+    @babel/plugin-transform-runtime: 禁用了 Babel 自动对每个文件的 runtime 注入，而是引入 @babel/plugin-transform-runtime 并且使所有辅助代码从这里引用。
 
 #### [41-高级-压缩图片]
 
