@@ -90,7 +90,8 @@ module.exports = {
           // 5. babel 将es6转成低版本js语法
           {
             test: /\.js$/,
-            exclude: /(node_modules)/, // 排除node_modules中的js文件（这些文件不处理）
+            // exclude: /(node_modules)/, // 排除node_modules中的js文件（这些文件不处理）
+            include: path.resolve(__dirname, "../src"), // 只处理src下的文件，其他文件不处理
             // use: {
               loader: 'babel-loader',
             //   options: {
@@ -106,7 +107,8 @@ module.exports = {
   plugins: [
     // 4. eslint插件 检测文件
     new ESLintPlugin({
-      context: path.resolve(__dirname, "../src") // 检测哪些文件，src下的
+      context: path.resolve(__dirname, "../src"), // 检测哪些文件，src下的
+      exclude: "node_modules", // 默认值 排除node_modules文件不处理
     }),
     // 6. Html插件 自动生成一个html并自动引入js资源
     new HtmlWebpackPlugin({
