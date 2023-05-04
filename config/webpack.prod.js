@@ -40,63 +40,67 @@ module.exports = {
   // 加载器
   module: {
     rules: [
-        // 1. 样式资源处理
-        {
-          test: /\.css$/, // 只检测.css文件
-          use: getStyleLoaders()
-        },
-        {
-            test: /\.less$/,
-            use: getStyleLoaders('less-loader')
-        },
-        {
-            test: /\.s[ac]ss$/,
-            use: getStyleLoaders('sass-loader'),
-        },
-        {
-            test: /\.styl$/,
-            use: getStyleLoaders('stylus-loader'), // stylus-loader将 Styl 文件编译成 Css 文件
-        },
-        // 2. 图片资源处理：转base64，定义打包输出路径
-        {
-            test: /\.(png|jpe?g|gif|webp|svg)$/,
-            type: "asset",
-            parser: {
-                dataUrlCondition: {
-                    // 优点减少请求数量，缺点体积变大一点。
-                  maxSize: 10 * 1024 // 小于10kb的图片会被base64处理
-                }
-            },
-            generator: {
-                // 将图片文件输出到 static/imgs 目录中
-                // 将图片文件命名 [hash:8][ext][query]
-                // [hash:8]: hash值取8位
-                // [ext]: 使用之前的文件扩展名
-                // [query]: 添加之前的query参数
-                filename: "static/imgs/[hash:8][ext][query]",
-            },
-        },
-        // 3. 字体资源处理：ttf|woff2?  4. 音视频|map4|map3|avi
-        {
-            test: /\.(ttf|woff2?|map4|map3|avi)$/,
-            type: "asset/resource", // 对文件原封不动的输出
-            generator: {
-                // 打包输出名称
-                filename: "static/media/[hash:8][ext][query]",
-            },
-        },
-        // 5. babel 将es6转成低版本js语法
-        {
-          test: /\.js$/,
-          exclude: /(node_modules)/, // 排除node_modules中的js文件（这些文件不处理）
-          // use: {
-            loader: 'babel-loader',
-          //   options: {
-          //     presets: ['@babel/preset-env'] // 可以写在这里，也可以单独写入babel.config.js配置文件
-          //   }
-          // }
-        }
-      ],
+      {
+        oneOf: [ // 使用后打包速度明显快了
+          // 1. 样式资源处理
+          {
+            test: /\.css$/, // 只检测.css文件
+            use: getStyleLoaders()
+          },
+          {
+              test: /\.less$/,
+              use: getStyleLoaders('less-loader')
+          },
+          {
+              test: /\.s[ac]ss$/,
+              use: getStyleLoaders('sass-loader'),
+          },
+          {
+              test: /\.styl$/,
+              use: getStyleLoaders('stylus-loader'), // stylus-loader将 Styl 文件编译成 Css 文件
+          },
+          // 2. 图片资源处理：转base64，定义打包输出路径
+          {
+              test: /\.(png|jpe?g|gif|webp|svg)$/,
+              type: "asset",
+              parser: {
+                  dataUrlCondition: {
+                      // 优点减少请求数量，缺点体积变大一点。
+                    maxSize: 10 * 1024 // 小于10kb的图片会被base64处理
+                  }
+              },
+              generator: {
+                  // 将图片文件输出到 static/imgs 目录中
+                  // 将图片文件命名 [hash:8][ext][query]
+                  // [hash:8]: hash值取8位
+                  // [ext]: 使用之前的文件扩展名
+                  // [query]: 添加之前的query参数
+                  filename: "static/imgs/[hash:8][ext][query]",
+              },
+          },
+          // 3. 字体资源处理：ttf|woff2?  4. 音视频|map4|map3|avi
+          {
+              test: /\.(ttf|woff2?|map4|map3|avi)$/,
+              type: "asset/resource", // 对文件原封不动的输出
+              generator: {
+                  // 打包输出名称
+                  filename: "static/media/[hash:8][ext][query]",
+              },
+          },
+          // 5. babel 将es6转成低版本js语法
+          {
+            test: /\.js$/,
+            exclude: /(node_modules)/, // 排除node_modules中的js文件（这些文件不处理）
+            // use: {
+              loader: 'babel-loader',
+            //   options: {
+            //     presets: ['@babel/preset-env'] // 可以写在这里，也可以单独写入babel.config.js配置文件
+            //   }
+            // }
+          }
+        ]
+      }
+    ],
   },
   // 插件：需要安装后引入才能用
   plugins: [
