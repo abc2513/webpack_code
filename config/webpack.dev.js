@@ -107,6 +107,7 @@ module.exports = {
   },
   // 模式
   mode: "development", // 开发模式
+  devtool: "cheap-module-source-map", // 错误代码编译后浏览器可以定位到具体的文件及行
 };
 
 // 打包运行 npx webpack serve --config ./config/webpack.dev.js

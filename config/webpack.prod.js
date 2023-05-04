@@ -119,6 +119,7 @@ module.exports = {
   ],
   // 模式
   mode: "production", // 开发模式
+  devtool: "source-map", // 错误代码编译后浏览器可以定位到具体的文件、行、列 打包后的js文件夹会生成一个main.js.map文件
 };
 
 // 生产模式打包 npx webpack --config ./config/webpack.prod.js
