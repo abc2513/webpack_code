@@ -369,8 +369,64 @@
     }),
 
 
-#### [38-高级-多进程打包]
+#### [38-高级-Thead多进程打包-（js文件打包开启多进程 并 使用Terser插件压缩）]
+    当文件多的时候效果明显，当文件较少的时候反而延长打包实际，因为每个进程启动就有大约为 600ms 左右开销。
+    
+    当项目越来越庞大时，打包速度越来越慢。
+    我们想要继续提升打包速度，其实就是要提升 js 的打包速度，因为其他文件都比较少。
+    而对 js 文件处理主要就是 eslint 、babel、Terser 三个工具，所以我们要提升它们的运行速度。
+    我们可以开启多进程同时处理 js 文件，这样速度就比之前的单进程打包更快了。
 
+    多进程打包：开启电脑的多个进程同时干一件事，速度更快。
+
+    怎么用
+        生产模式需要开启多线程并进行压缩；开发模式下js没有进行压缩就不需要处理了，只需要开启多线程即可。
+        1. 启动进程的数量就是我们 CPU 的核数，获取 CPU 的核数
+            // nodejs核心模块，直接使用
+            const os = require("os");
+            // cpu核数
+            const threads = os.cpus().length;
+        2. 下载包
+            npm i thread-loader -D
+        3. 使用: 开启多进程并使用terser插件压缩js文件
+            const os = require("os");
+            // cpu核数
+            const threads = os.cpus().length;
+            const TerserPlugin = require("terser-webpack-plugin"); // 12. 压缩插件 内置了 不需要下载
+
+            {
+                test: /\.js$/,
+                include: path.resolve(__dirname, "../src"), // 9. 只处理src下的文件，其他文件不处理
+                use: [
+                    {
+                        loader: "thread-loader", // 11. 开启多进程
+                        options: {
+                        workers: threads, // 数量
+                        },
+                    },
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                        cacheDirectory: true, // 10. 开启babel编译缓存
+                        cacheCompression: false, // 缓存文件不要压缩
+                        },
+                    }
+                ],
+            }
+
+            new ESLintWebpackPlugin({
+                threads, // 开启多进程
+            })
+
+            optimization: {
+                minimize: true,
+                minimizer: [
+                    new CssMinimizerPlugin(), // css压缩也可以写到optimization.minimizer里面，效果一样的
+                    new TerserPlugin({ // js压缩，当生产模式会默认开启TerserPlugin，但是我们需要进行其他配置，就要重新写了
+                        parallel: threads // 开启多进程
+                    })
+                ],
+            },
 
 #### [39-高级-TreeShaking]
 

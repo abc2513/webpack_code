@@ -1,7 +1,11 @@
+const os = require("os");
 // Node.js的核心模块，专门用来处理文件路径
 const path = require("path");
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// cpu核数
+const threads = os.cpus().length;
 
 module.exports = {
   // 入口
@@ -79,17 +83,32 @@ module.exports = {
           {
             test: /\.js$/,
             // exclude: /(node_modules)/, // 排除node_modules中的js文件（这些文件不处理）
-            include: path.resolve(__dirname, "../src"), // 只处理src下的文件，其他文件不处理
-            // use: {
-              loader: 'babel-loader',
-            //   options: {
-            //     presets: ['@babel/preset-env'] // 可以写在这里，也可以单独写入babel.config.js配置文件
-            //   }
-            // }
-            options: {
-              cacheDirectory: true, // 开启babel编译缓存
-              cacheCompression: false, // 缓存文件不要压缩
-            },
+            include: path.resolve(__dirname, "../src"), // 9. 只处理src下的文件，其他文件不处理
+            // // use: {
+            //   loader: 'babel-loader',
+            // //   options: {
+            // //     presets: ['@babel/preset-env'] // 可以写在这里，也可以单独写入babel.config.js配置文件
+            // //   }
+            // // }
+            // options: {
+            //   cacheDirectory: true, // 开启babel编译缓存
+            //   cacheCompression: false, // 缓存文件不要压缩
+            // },
+            use: [
+              {
+                loader: "thread-loader", // 11. 开启多进程
+                options: {
+                  workers: threads, // 数量
+                },
+              },
+              {
+                loader: 'babel-loader',
+                options: {
+                  cacheDirectory: true, // 10. 开启babel编译缓存
+                  cacheCompression: false, // 缓存文件不要压缩
+                },
+              }
+            ],
           }
         ]
       }
@@ -107,6 +126,7 @@ module.exports = {
         __dirname,
         "../node_modules/.cache/.eslintcache"
       ),
+      threads, // 11. 开启多进程和线程数量
     }),
     // 6. Html插件 自动生成一个html并自动引入js资源
     new HtmlWebpackPlugin({

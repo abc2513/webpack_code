@@ -1,9 +1,14 @@
+const os = require("os");
 // Node.js的核心模块，专门用来处理文件路径
 const path = require("path");
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin"); // 12. 压缩插件 内置了 不需要下载
+
+// cpu核数
+const threads = os.cpus().length;
 
 // 获取处理样式的Loaders
 const getStyleLoaders = (preLoader) => {
@@ -41,7 +46,7 @@ module.exports = {
   module: {
     rules: [
       {
-        oneOf: [ // 使用后打包速度明显快了
+        oneOf: [ // 8. 使用后打包速度明显快了
           // 1. 样式资源处理
           {
             test: /\.css$/, // 只检测.css文件
@@ -91,17 +96,32 @@ module.exports = {
           {
             test: /\.js$/,
             // exclude: /(node_modules)/, // 排除node_modules中的js文件（这些文件不处理）
-            include: path.resolve(__dirname, "../src"), // 只处理src下的文件，其他文件不处理
-            // use: {
-              loader: 'babel-loader',
-            //   options: {
-            //     presets: ['@babel/preset-env'] // 可以写在这里，也可以单独写入babel.config.js配置文件
-            //   }
-            // }
-            options: {
-              cacheDirectory: true, // 开启babel编译缓存
-              cacheCompression: false, // 缓存文件不要压缩
-            },
+            include: path.resolve(__dirname, "../src"), // 9. 只处理src下的文件，其他文件不处理
+            // // use: {
+            //   loader: 'babel-loader',
+            // //   options: {
+            // //     presets: ['@babel/preset-env'] // 可以写在这里，也可以单独写入babel.config.js配置文件
+            // //   }
+            // // }
+            // options: {
+            //   cacheDirectory: true, // 开启babel编译缓存
+            //   cacheCompression: false, // 缓存文件不要压缩
+            // },
+            use: [
+              {
+                loader: "thread-loader", // 11. 开启多进程
+                options: {
+                  workers: threads, // 数量
+                },
+              },
+              {
+                loader: 'babel-loader',
+                options: {
+                  cacheDirectory: true, // 10. 开启babel编译缓存
+                  cacheCompression: false, // 缓存文件不要压缩
+                },
+              }
+            ],
           }
         ]
       }
@@ -112,13 +132,14 @@ module.exports = {
     // 4. eslint插件 检测文件
     new ESLintPlugin({
       context: path.resolve(__dirname, "../src"), // 检测哪些文件，src下的
-      exclude: "node_modules", // 默认值 排除node_modules文件不处理
-      cache: true, // 开启缓存
-      // 缓存目录
+      exclude: "node_modules", // 9. 默认值 排除node_modules文件不处理
+      cache: true, // 10. 开启缓存
+      // 10. 缓存目录
       cacheLocation: path.resolve(
         __dirname,
         "../node_modules/.cache/.eslintcache"
       ),
+      threads, // 11. 开启多进程和线程数量
     }),
     // 6. Html插件 自动生成一个html并自动引入js资源
     new HtmlWebpackPlugin({
@@ -131,8 +152,20 @@ module.exports = {
       // 定义输出文件名和目录
       filename: "static/css/main.css",
     }),
-    new CssMinimizerPlugin()
+    // new CssMinimizerPlugin(),
+    // new TerserPlugin({
+    //   parallel: threads // 开启多进程
+    // }) // webpack5官方 建议放入minimizer中压缩
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin(), // css压缩也可以写到optimization.minimizer里面，效果一样的
+      new TerserPlugin({ // js压缩，当生产模式会默认开启TerserPlugin，但是我们需要进行其他配置，就要重新写了
+        parallel: threads // 开启多进程
+      })
+    ],
+  },
   // 模式
   mode: "production", // 开发模式
   devtool: "source-map", // 错误代码编译后浏览器可以定位到具体的文件、行、列 打包后的js文件夹会生成一个main.js.map文件
