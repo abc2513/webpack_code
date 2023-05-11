@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin"); // 12. 压缩插件 内置了 不需要下载
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin"); // 图片压缩
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 
 // cpu核数
 const threads = os.cpus().length;
@@ -71,6 +72,7 @@ module.exports = {
           // 2. 图片资源处理：转base64，定义打包输出路径
           {
               test: /\.(png|jpe?g|gif|webp|svg)$/,
+              include: path.resolve(__dirname, "../src"),
               type: "asset",
               parser: {
                   dataUrlCondition: {
@@ -158,6 +160,11 @@ module.exports = {
       // filename: "static/css/main.css",
       filename: "static/css/[name].css", // 兼容多入口
       chunkFilename: "static/css/[name].chunk.css", // 暂时用不到
+    }),
+    new PreloadWebpackPlugin({
+      rel: "preload", // preload兼容性更好
+      as: "script",
+      // rel: 'prefetch' // prefetch兼容性更差
     }),
     // new CssMinimizerPlugin(),
     // new TerserPlugin({

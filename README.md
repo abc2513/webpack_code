@@ -488,7 +488,9 @@
     npm run build后 dist/static/imgs 里的图片变小了
 
 ### 优化代码运行性能
-#### [42-高级-Code Split-多入口-（输出多个js按需加载）]
+
+#### Code Split 多入口 按需 动态导入 代码分割打包 统一命名
+##### [42-高级-Code Split-多入口-（输出多个js按需加载）]
     demo1
     打包代码时会将所有 js 文件打包到一个文件中，体积太大了。我们如果只要渲染首页，就应该只加载首页的 js 文件，其他文件不应该加载。
 
@@ -505,7 +507,7 @@
     打包npx webpack 此时在 dist 目录我们能看到输出了两个 js 文件。
 
 
-#### [43-高级-Code Split-多入口提取公共模块-（提取重复代码减小体积）]
+##### [43-高级-Code Split-多入口提取公共模块-（提取重复代码减小体积）]
     demo2
     如果多入口文件中都引用了同一份代码，我们不希望这份代码被打包到两个文件中，导致代码重复，体积更大。
     我们需要提取多入口的重复代码，只打包生成一个 js 文件，其他文件引用它就好。
@@ -513,7 +515,7 @@
     多入口的文件引入的公共代码处理，将公共模块单独打包，这样其他文件就可以引用它了。
     配置 optimization->splitChunks->cacheGroups
 
-#### [44-高级-Code Split-多入口按需加载-（动态导入 触发时再加载）]
+##### [44-高级-Code Split-多入口按需加载-（动态导入 触发时再加载）]
     demo3
     想要实现按需加载，动态导入模块。还需要额外配置：
         document.getElementById("btn").onclick = function () {
@@ -526,7 +528,7 @@
     
     我们可以发现dist文件夹，一旦通过 import 动态导入语法导入模块，模块就被代码分割，同时也能按需加载了。
 
-#### [45-高级-Code Split-单入口-（单页面应用代码分割打包）]
+##### [45-高级-Code Split-单入口-（单页面应用代码分割打包）]
     最终我们会使用单入口+代码分割+动态导入方式来进行配置。更新之前的配置文件。
 
     开发时我们可能是单页面应用（SPA），只有一个入口（单入口）。那么我们需要这样配置：
@@ -545,7 +547,7 @@
             })
         }
 
-#### [46-高级-Code Split-给模块命名-（给动态导入文件取名称 替代 随机数命名）]
+##### [46-高级-Code Split-给模块命名-（给动态导入文件取名称 替代 随机数命名）]
     给打包分割文件（及动态导入的js文件）进行重命名
 
     // /* webpackChunkName: "math" */ 这是webpack命名的方式，也叫魔法命名。此时打包的就不是587这种随机数了，而是math.js
@@ -555,7 +557,7 @@
 
     chunkFilename: 'static/js/[name].js', // 给打包输出的其他文件命名 比如动态导入，分割打包
 
-#### [47-高级-Code Split-统一命名]
+##### [47-高级-Code Split-统一命名-（容易区分文件来源 兼容多入口）]
     对图片、图标、css、js等输出文件进行统一命名配置
 
     出口文件
@@ -569,9 +571,26 @@
 
     在开发模式下配置同样
 
-#### [48-高级-Preload和Prefetch]
+#### [48-高级-Preload和Prefetch-（用浏览器空闲时间加载后续要使用的资源，避免使用时加载卡顿）]
+
+    安装npm i @vue/preload-webpack-plugin -D
+    配置
+        const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+        new PreloadWebpackPlugin({
+            rel: "preload", // preload兼容性更好
+            as: "script",
+            // rel: 'prefetch' // prefetch兼容性更差
+        }),
+
+    可以通过这个网站查看兼容性https://caniuse.com/?search=Preload
+    打包后的html 可以看到用了 rel="preload" as="script"
+        <script defer="defer" src="static/js/main.js"></script>
+        <link href="static/js/math.chunk.js" rel="preload" as="script">
+        <link href="static/css/main.css" rel="stylesheet">
+    也可以在浏览器中查看 加载的优先级
 
 #### [49-高级-Network Cache]
+
 
 
 #### [50-高级-解决js兼容性问题CoreJS]
