@@ -42,9 +42,10 @@ module.exports = {
     // __dirname 当前文件的文件夹绝对路径
     path: path.resolve(__dirname, "../dist"),
     // filename: "static/js/main.js", // 入口文件打包输出文件名。将 js 文件输出到 static/js 目录中
-    filename: "static/js/[name].js", // 兼容多入口。打包的主文件
-    chunkFilename: 'static/js/[name].chunk.js', // 给打包输出的其他文件命名 比如动态导入，分割打包。加个.chunk区分打包的额外文件
-    assetModuleFilename: "static/media/[name].[hash][ext]", // 图片、字体等资源命名方式（注意用hash）
+    // [contenthash:8]使用contenthash，取8位长度
+    filename: "static/js/[name].[contenthash:8].js", // 兼容多入口。打包的主文件
+    chunkFilename: "static/js/[name].[contenthash:8].chunk.js", // 给打包输出的其他文件命名 比如动态导入，分割打包。加个.chunk区分打包的额外文件
+    assetModuleFilename: "static/media/[name].[hash:8][ext]", // 图片、字体等资源命名方式（注意用hash）
     clean: true, // 自动清空上次打包的内容
   },
   // 加载器
@@ -158,8 +159,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       // 定义输出文件名和目录
       // filename: "static/css/main.css",
-      filename: "static/css/[name].css", // 兼容多入口
-      chunkFilename: "static/css/[name].chunk.css", // 暂时用不到
+      filename: "static/css/[name].[contenthash:8].css", // 兼容多入口
+      chunkFilename: "static/css/[name].[contenthash:8].chunk.css", // 暂时用不到
     }),
     new PreloadWebpackPlugin({
       rel: "preload", // preload兼容性更好
@@ -211,7 +212,12 @@ module.exports = {
     splitChunks: {
       chunks: "all", // 对所有模块都进行分割
       // 其他的都用默认值
-    }
+    },
+    // 提取runtime文件: 当math文件修改后打包，main.js也重新打包了，因为它引用了math, 而math的hash值每次打包都是随机更新的，所以main.js也会一起更新
+    // 将 hash 值单独保管在一个 runtime 文件中。当 math 文件发送变化，变化的是 math 和 runtime 文件，main 不变。runtime 文件只保存文件的 hash 值和它们与文件关系，整个文件体积就比较小，所以变化重新请求的代价也小。
+    runtimeChunk: {
+      name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
+    },
   },
   // 模式
   mode: "production", // 开发模式

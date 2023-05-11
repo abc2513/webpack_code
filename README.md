@@ -589,7 +589,41 @@
         <link href="static/css/main.css" rel="stylesheet">
     也可以在浏览器中查看 加载的优先级
 
-#### [49-高级-Network Cache]
+#### [49-高级-Network Cache-（更新缓存 - 只更新修改的文件）]
+    1. 当文件发生变化通过后缀名hash值的变化去更新缓存，去加载新的资源
+            [contenthash:8] 只要文件发生变化hash值就会发生变化。
+    2. 一个文件发生变化只更新这个文件的缓存，其他文件缓存不失效。
+        把文件之间依赖的hash值提取成一个单独的文件保管，这样当a文件发生变化，只会a和runtime文件发生变化，并不会影响其他文件。
+            runtimeChunk: {
+                name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
+            },
+
+    1. 将来开发时我们对静态资源会使用缓存来优化，这样浏览器第二次请求资源就能读取缓存了，速度很快。
+    但是这样的话就会有一个问题, 因为前后输出的文件名是一样的，都叫 main.js，一旦将来发布新版本，因为文件名没有变化导致浏览器会直接读取缓存，不会加载新资源，项目也就没法更新了。
+    所以我们从文件名入手，确保更新前后文件名不一样，这样就可以做缓存了。
+        contenthash 根据文件内容生成 hash 值，只有文件内容变化了，hash 值才会变化。所有文件 hash 值是独享且不同的。
+        filename: "static/js/[name].[contenthash:8].js"
+    
+    2. 问题：
+        当我们修改 math.js 文件再重新打包的时候，因为 contenthash 原因，math.js 文件 hash 值发生了变化（这是正常的）。
+        但是 main.js 文件的 hash 值也发生了变化，这会导致 main.js 的缓存失效。明明我们只修改 math.js, 为什么 main.js 也会变身变化呢？
+
+    原因：
+        更新前：math.xxx.js, main.js 引用的 math.xxx.js
+        更新后：math.yyy.js, main.js 引用的 math.yyy.js, 文件名发生了变化，间接导致 main.js 也发生了变化
+    解决：
+        将 hash 值单独保管在一个 runtime 文件中。
+        我们最终输出三个文件：main、math、runtime。当 math 文件发送变化，变化的是 math 和 runtime 文件，main 不变。
+
+    runtime 文件只保存文件的 hash 值和它们与文件关系，整个文件体积就比较小，所以变化重新请求的代价也小。
+        // 提取runtime文件
+        runtimeChunk: {
+            name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
+        },
+
+    
+
+
 
 
 
