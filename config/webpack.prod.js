@@ -41,6 +41,7 @@ module.exports = {
     // __dirname 当前文件的文件夹绝对路径
     path: path.resolve(__dirname, "../dist"),
     filename: "static/js/main.js", // 入口文件打包输出文件名。将 js 文件输出到 static/js 目录中
+    chunkFilename: 'static/js/[name].js', // 给打包输出的其他文件命名 比如动态导入，分割打包
     clean: true, // 自动清空上次打包的内容
   },
   // 加载器

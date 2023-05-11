@@ -527,6 +527,8 @@
     我们可以发现dist文件夹，一旦通过 import 动态导入语法导入模块，模块就被代码分割，同时也能按需加载了。
 
 #### [45-高级-Code Split-单入口-（单页面应用代码分割打包）]
+    最终我们会使用单入口+代码分割+动态导入方式来进行配置。更新之前的配置文件。
+
     开发时我们可能是单页面应用（SPA），只有一个入口（单入口）。那么我们需要这样配置：
         optimization: {
             // 代码分割配置
@@ -543,7 +545,15 @@
             })
         }
 
-#### [46-高级-Code Split-给模块命名]
+#### [46-高级-Code Split-给模块命名-（给动态导入文件取名称 替代 随机数命名）]
+    给打包分割文件（及动态导入的js文件）进行重命名
+
+    // /* webpackChunkName: "math" */ 这是webpack命名的方式，也叫魔法命名。此时打包的就不是587这种随机数了，而是math.js
+    import(/* webpackChunkName: "math" */ "./js/math").then(({ mul }) => { // import有波浪线是eslint不能识别动态导入，需要额外配置plugins: ["import"]
+        console.log('/js/math模块加载成功', mul(1, 3))
+    })
+
+    chunkFilename: 'static/js/[name].js', // 给打包输出的其他文件命名 比如动态导入，分割打包
 
 #### [47-高级-Code Split-统一命名]
 
