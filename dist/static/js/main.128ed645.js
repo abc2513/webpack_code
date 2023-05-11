@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkwebpack_code=self.webpackChunkwebpack_code||[]).push([[179],{413:function(e,n,c){document.getElementById("btn").onclick=function(){c.e(600).then(c.bind(c,279)).then((e=>{let{mul:n}=e;console.log("/js/math模块加载成功",n(1,3))}))},console.log(2-1-1),console.log(function(){for(var e=arguments.length,n=new Array(e),c=0;c<e;c++)n[c]=arguments[c];return n.reduce(((e,n)=>e+n),0)}(1,2,3,4))}},function(e){var n;n=413,e(e.s=n)}]);
-//# sourceMappingURL=main.128ed645.js.map

@@ -1,3 +1,7 @@
+// 完整引入 打包体积较大
+// import "core-js";
+// 按需引入
+// import "core-js/es/promise";
 import count from "./js/count";
 import sum from "./js/sum";
 // 要想webpack打包资源必须在main.js中引入
@@ -32,3 +36,12 @@ if (module.hot) {
     //   });
     module.hot.accept("./js/sum.js");
 }
+
+// 添加promise代码
+const promise = Promise.resolve();
+promise.then(() => {
+  console.log("hello promise");
+});
+
+const arr = [1, 2]
+console.log('arr', arr.includes(1))

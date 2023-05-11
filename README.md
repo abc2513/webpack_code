@@ -627,7 +627,40 @@
 
 
 
-#### [50-高级-解决js兼容性问题CoreJS]
+#### [50-高级-解决js兼容性问题CoreJS-（自动按需加载 解析兼容性语法）]
+    #为什么
+        过去我们使用 babel 对 js 代码进行了兼容性处理，其中使用@babel/preset-env 智能预设来处理兼容性问题。
+
+        它能将 ES6 的一些语法进行编译转换，比如箭头函数、点点点运算符等。但是如果是 async 函数、promise 对象、数组的一些方法（includes）等，它没办法处理。
+
+        所以此时我们 js 代码仍然存在兼容性问题，一旦遇到低版本浏览器会直接报错。所以我们想要将 js 兼容性问题彻底解决
+
+    #是什么
+        core-js 是专门用来做 ES6 以及以上 API 的 polyfill。
+
+        polyfill翻译过来叫做垫片/补丁。就是用社区上提供的一段代码，让我们在不兼容某些新特性的浏览器上，使用该新特性。
+    
+    解决Eslint 会对 Promise 报错。安装
+        npm i @babel/eslint-parser -D
+        parser: "@babel/eslint-parser", // 支持最新的最终 ECMAScript 标准
+    
+    下载包
+        npm i core-js
+    全部引入 import "core-js";
+    手动按需引入 import "core-js/es/promise";
+    自动按需引入 babel.config.js
+            // 智能预设：能够编译ES6语法
+            presets: [
+                [
+                    "@babel/preset-env",
+                    // 按需加载core-js的polyfill
+                    { useBuiltIns: "usage", corejs: { version: "3", proposals: true } },
+                ],
+            ],
+    此时打包后es6之后的新语法就可以被解析了，会自动分析代码中存在兼容性问题的代码进行编译。
+    此时就会自动根据我们代码中使用的语法，来按需加载相应的 polyfill 了。
+
+
 
 
 #### [51-高级-PWA]
