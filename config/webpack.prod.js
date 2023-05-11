@@ -7,7 +7,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin"); // 12. 压缩插件 内置了 不需要下载
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin"); // 图片压缩
-const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin"); // 利用浏览器空闲时间加载后续需要使用的资源
+const WorkboxPlugin = require("workbox-webpack-plugin"); // 离线访问
 
 // cpu核数
 const threads = os.cpus().length;
@@ -166,6 +167,12 @@ module.exports = {
       rel: "preload", // preload兼容性更好
       as: "script",
       // rel: 'prefetch' // prefetch兼容性更差
+    }),
+    new WorkboxPlugin.GenerateSW({
+      // 这些选项帮助快速启用 ServiceWorkers
+      // 不允许遗留任何“旧的” ServiceWorkers
+      clientsClaim: true,
+      skipWaiting: true,
     }),
     // new CssMinimizerPlugin(),
     // new TerserPlugin({

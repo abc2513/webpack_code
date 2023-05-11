@@ -663,8 +663,58 @@
 
 
 
-#### [51-高级-PWA]
+#### [51-高级-PWA-（离线访问项目）]
+    #为什么 （兼容性差）
+        开发 Web App 项目，项目一旦处于网络离线情况，就没法访问了。
+        我们希望给项目提供离线体验。
 
+    #是什么
+        渐进式网络应用程序(progressive web application - PWA)：是一种可以提供类似于 native app(原生应用程序) 体验的 Web App 的技术。
+        其中最重要的是，在 离线(offline) 时应用程序能够继续运行功能。
+        内部通过 Service Workers 技术实现的。
+
+    #怎么用：通过一个插件并在js中加载一段代码
+        npm i workbox-webpack-plugin -D
+        修改配置
+        const WorkboxPlugin = require("workbox-webpack-plugin");
+        new WorkboxPlugin.GenerateSW({
+            // 这些选项帮助快速启用 ServiceWorkers
+            // 不允许遗留任何“旧的” ServiceWorkers
+            clientsClaim: true,
+            skipWaiting: true,
+        }),
+        修改main.js
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", () => {
+                    navigator.serviceWorker
+                    .register("/service-worker.js")
+                    .then((registration) => {
+                        console.log("SW registered: ", registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log("SW registration failed: ", registrationError);
+                    });
+                });
+            }
+        打包npm run build
+        此时如果直接通过 VSCode 访问打包后页面，在浏览器控制台会发现 SW registration failed。
+        因为我们打开的访问路径是：http://127.0.0.1:5500/dist/index.html。此时页面会去请求 service-worker.js 文件，请求路径是：http://127.0.0.1:5500/service-worker.js，这样找不到会 404。
+        实际 service-worker.js 文件路径是：http://127.0.0.1:5500/dist/service-worker.js。
+
+        解决路径问题：
+            npm i serve -g
+            运行serve dist
+
+        出现就成功了
+             Serving!                                  │
+            │                                          │
+            │   - Local:    http://localhost:3000      │
+            │   - Network:  http://172.18.22.11:3000   │
+            │                                          │
+            │   Copied local address to clipboard! 
+
+        在浏览器的Application里可以看Service Workers的情况
+        在Cache Storage里也可以看到
 
 ### [52-高级-总结]
 
