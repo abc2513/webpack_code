@@ -40,8 +40,10 @@ module.exports = {
     // path.resolve()方法返回一个绝对路径
     // __dirname 当前文件的文件夹绝对路径
     path: path.resolve(__dirname, "../dist"),
-    filename: "static/js/main.js", // 入口文件打包输出文件名。将 js 文件输出到 static/js 目录中
-    chunkFilename: 'static/js/[name].js', // 给打包输出的其他文件命名 比如动态导入，分割打包
+    // filename: "static/js/main.js", // 入口文件打包输出文件名。将 js 文件输出到 static/js 目录中
+    filename: "static/js/[name].js", // 兼容多入口。打包的主文件
+    chunkFilename: 'static/js/[name].chunk.js', // 给打包输出的其他文件命名 比如动态导入，分割打包。加个.chunk区分打包的额外文件
+    assetModuleFilename: "static/media/[name].[hash][ext]", // 图片、字体等资源命名方式（注意用hash）
     clean: true, // 自动清空上次打包的内容
   },
   // 加载器
@@ -82,7 +84,7 @@ module.exports = {
                   // [hash:8]: hash值取8位
                   // [ext]: 使用之前的文件扩展名
                   // [query]: 添加之前的query参数
-                  filename: "static/imgs/[hash:8][ext][query]",
+                  // filename: "static/imgs/[hash:8][ext][query]", // 都统一通过assetModuleFilename处理了
               },
           },
           // 3. 字体资源处理：ttf|woff2?  4. 音视频|map4|map3|avi
@@ -91,7 +93,7 @@ module.exports = {
               type: "asset/resource", // 对文件原封不动的输出
               generator: {
                   // 打包输出名称
-                  filename: "static/media/[hash:8][ext][query]",
+                  // filename: "static/media/[hash:8][ext][query]",
               },
           },
           // 5. babel 将es6转成低版本js语法
@@ -153,7 +155,9 @@ module.exports = {
     // 7. 提取css成单独文件
     new MiniCssExtractPlugin({
       // 定义输出文件名和目录
-      filename: "static/css/main.css",
+      // filename: "static/css/main.css",
+      filename: "static/css/[name].css", // 兼容多入口
+      chunkFilename: "static/css/[name].chunk.css", // 暂时用不到
     }),
     // new CssMinimizerPlugin(),
     // new TerserPlugin({

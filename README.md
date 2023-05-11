@@ -556,6 +556,18 @@
     chunkFilename: 'static/js/[name].js', // 给打包输出的其他文件命名 比如动态导入，分割打包
 
 #### [47-高级-Code Split-统一命名]
+    对图片、图标、css、js等输出文件进行统一命名配置
+
+    出口文件
+        filename: "static/js/[name].js", // 兼容多入口。打包的主文件
+        chunkFilename: 'static/js/[name].chunk.js', // 给打包输出的其他文件命名 比如动态导入，分割打包。加个.chunk区分打包的额外文件
+    图片、字体
+        assetModuleFilename: "static/media/[name].[hash][ext]", // 图片、字体等资源命名方式（注意用hash）
+    css打包输出 
+        filename: "static/css/[name].css", // 兼容多入口
+        chunkFilename: "static/css/[name].chunk.css", // 暂时用不到
+
+    在开发模式下配置同样
 
 #### [48-高级-Preload和Prefetch]
 
