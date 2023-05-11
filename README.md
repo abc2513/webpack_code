@@ -488,8 +488,21 @@
     npm run build后 dist/static/imgs 里的图片变小了
 
 ### 优化代码运行性能
-#### [42-高级-Code Split-多入口]
-    
+#### [42-高级-Code Split-多入口-（输出多个js按需加载）]
+    打包代码时会将所有 js 文件打包到一个文件中，体积太大了。我们如果只要渲染首页，就应该只加载首页的 js 文件，其他文件不应该加载。
+
+    所以我们需要将打包生成的文件进行代码分割，生成多个 js 文件，渲染哪个页面就只加载某个 js 文件，这样加载的资源就少，速度就更快。
+
+    代码分割（Code Split）主要做了两件事：
+        分割文件：将打包生成的文件进行分割，生成多个 js 文件。
+        按需加载：需要哪个文件就加载哪个文件。
+
+    新建一个项目CODE-SPLIT/demo1
+    创建多个js文件，webpack配置中实现多入口，这样打包之后也是多个js文件，而不只是一个main.js文件。
+    创建好相应的文件夹后，npm init -y 初始化package.json文件
+    安装npm i webpack webpack-cli html-webpack-plugin -D
+    打包npx webpack 此时在 dist 目录我们能看到输出了两个 js 文件。
+
 
 #### [43-高级-Code Split-多入口提取公告模块]
 
