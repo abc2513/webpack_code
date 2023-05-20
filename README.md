@@ -1,5 +1,5 @@
 # webpack_code
-尚硅谷的webpack教程https://yk2012.github.io/sgg_webpack5/intro/
+尚硅谷的webpack教程https://abc2513.github.io/sgg_webpack5/intro/
 
 # 基础
 ## webpack简介及常见资源处理 开发模式
